@@ -1,0 +1,7 @@
+{
+    "name": "backend",
+    "dockerComposeFile": ["../compose.yml", "../compose.override.yml"],
+    "service": "backend",
+    "workspaceFolder": "/workspace/backend",
+    "postCreateCommand": "bash ./postCreate.sh"
+}
