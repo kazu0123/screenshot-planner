@@ -47,11 +47,6 @@ def call_agent(message: str):
 
                 matched = agent_functions[function_name]
 
-                if len(matched) <= 0:
-                    raise 'function_call.nameにマッチする関数がありません。'
-                if 1 < len(matched):
-                    raise 'function_call.nameに関数が複数マッチしました。'
-                
                 function_to_call = matched['callable']
                 function_response = function_to_call(**function_args)
 
