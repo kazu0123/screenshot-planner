@@ -59,3 +59,42 @@ def add_event_to_google_calendar(
     }
     event = service.events().insert(calendarId=CALENDAR_ID, body=event).execute()
     return "success"
+
+add_event_to_google_calendar_definition = {
+  "name": "create_event",
+  "description": "カレンダーに登録する関数です。",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "event_title": {
+        "type": "string",
+        "description": "予定のタイトル、予定のソース（分かる場合）"
+      },
+      "event_description": {
+        "type": "string",
+        "description": "予定の関連情報です。画像の読み取り結果の解釈や追加情報を入れてください。"
+      },
+      "event_location": {
+        "type": "string",
+        "description": "予定の実施場所"
+      },
+      "start_datetime": {
+        "type": "string",
+        "description": "（予定を繰り返す場合、最初の）予定を開始する日時（形式: ISO 8601, タイムゾーン: Asia/Tokyo）"
+      },
+      "end_datetime": {
+        "type": "string",
+        "description": "（予定を繰り返す場合、最初の）予定を終了する日時（形式: ISO 8601, タイムゾーン: Asia/Tokyo）"
+      },
+      "recurrence": {
+        "type": "string",
+        "description": "予定の繰り返し設定です。RRule(RFC5545)で表現されます。例: FREQ=WEEKLY;BYDAY=MO"
+      }
+    },
+    "required": [
+      "event_title",
+      "start_datetime",
+      "end_datetime"
+    ]
+  }
+}
