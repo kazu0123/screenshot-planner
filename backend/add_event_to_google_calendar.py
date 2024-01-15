@@ -61,7 +61,7 @@ def add_event_to_google_calendar(
     return "success"
 
 add_event_to_google_calendar_definition = {
-  "name": "create_event",
+  "name": "add_event_to_google_calendar",
   "description": "カレンダーに登録する関数です。",
   "parameters": {
     "type": "object",
