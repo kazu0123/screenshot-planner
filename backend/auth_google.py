@@ -33,29 +33,4 @@ if not creds or not creds.valid:
     with open(token_json_path, 'w') as token:
         token.write(creds.to_json())
 
-service = build('calendar', 'v3', credentials=creds)
-
-def add_event_to_google_calendar(
-    start_datetime: str, # ISO 8601
-    end_datetime: str, # ISO 8601
-    event_title: str,
-    recurrence: str = "", # RRule(RFC5545)
-    event_description:str = "",
-    event_location: str = "",
-):
-    event = {
-        'summary': "【このイベントは無視してください。】" + event_title,
-        'location': event_location,
-        'description': "このイベントはアプリ開発のためのテストで作成されました。このイベントは削除して問題ありません。\n\n" + event_description,
-        'start': {
-            'dateTime': start_datetime,
-            'timeZone': 'Asia/Tokyo',
-        },
-        'end': {
-            'dateTime': end_datetime,
-            'timeZone': 'Asia/Tokyo',
-        },
-        "recurrence":recurrence
-    }
-    event = service.events().insert(calendarId=CALENDAR_ID, body=event).execute()
-    return "success"
+calendar_service = build('calendar', 'v3', credentials=creds)
