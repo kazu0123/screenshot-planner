@@ -5,7 +5,13 @@ from call_agent import call_agent
 from load_image import load_image
 from image_to_string import image_to_string
 
+# router
+from create_event import router as create_event_router
+from parse_event_details import router as parse_event_details_router
+
 app = FastAPI()
+app.include_router(create_event_router)
+app.include_router(parse_event_details_router)
 
 @app.post('/add_calender')
 def add_calender(message: str):
