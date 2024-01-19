@@ -1,7 +1,12 @@
+from fastapi.routing import APIRouter
+
 from calendar_event import CalendarEvent
 from llm_prompts import system_prompt
 from openai_client import openai_client
 
+router = APIRouter()
+
+@router.post('/parse-event-details')
 def parse_event_details(message: str):
     result: list[CalendarEvent] = []
 
