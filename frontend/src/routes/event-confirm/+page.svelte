@@ -30,9 +30,38 @@
 <ul>
 {#each $calendarEvents as calendarEvent}
     <li>
-        <h2>{calendarEvent.event_title}</h2>
-        <p>{calendarEvent.start_datetime}</p>
-        <p>{calendarEvent.end_datetime}</p>
+        <h2 class="text-2xl mb-3">{calendarEvent.event_title}</h2>
+
+        <div>
+            <p>開始日時</p>
+            <p>{calendarEvent.start_datetime}</p>
+        </div>
+
+        <div>
+            <p>終了日時</p>
+            <p>{calendarEvent.end_datetime}</p>
+        </div>
+
+        <div>
+            <p>実施場所</p>
+            <p>{calendarEvent.event_location}</p>
+        </div>
+
+        <div>
+            <p>繰り返し</p>
+            <p>{calendarEvent.recurrence}</p>
+        </div>
+
+        <div>
+            <p>追加情報</p>
+            <p>{calendarEvent.event_description}</p>
+        </div>
     </li>
 {/each}
 </ul>
+
+<style>
+    li > div :first-child {
+        background-color: rgb(241 245 249);
+    }
+</style>
