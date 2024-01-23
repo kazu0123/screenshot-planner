@@ -3,10 +3,14 @@
     import { isCalendarEvent } from "$lib/CalendarEvent";
     import SubmitButton from "$lib/SubmitButton.svelte";
     import { writable } from "svelte/store";
+    import { Spinner } from 'flowbite-svelte';
 
     const textareaValue = writable("");
+    let processing = writable(false);
 
     async function handleClick(event: MouseEvent) {
+        $processing = true;
+
         const requestURL = new URL("http://127.0.0.1:8000/parse-event-details");
         requestURL.searchParams.append("message", $textareaValue);
 
@@ -36,6 +40,12 @@
         />
     </section>
     <section class="w-full">
-        <SubmitButton on:click={handleClick}>送信</SubmitButton>
+        <SubmitButton disabled={$processing} on:click={handleClick}>
+            {#if $processing}
+                <Spinner></Spinner>
+            {:else}
+                送信
+            {/if}
+        </SubmitButton>
     </section>
 </main>
