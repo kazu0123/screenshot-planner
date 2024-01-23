@@ -1,4 +1,8 @@
-<button type="button" on:click>
+<script lang="ts">
+    export let disabled: boolean | null | undefined = false;
+</script>
+
+<button disabled={disabled} type="button" on:click>
     <slot />
 </button>
 
@@ -33,5 +37,11 @@
 
     button:focus {
         box-shadow: 0 0 0 4px var(--sky-300);
+    }
+
+    button:disabled {
+        background-color: var(--sky-300);
+        color: var(--sky-600);
+        border-color: var(--sky-600);
     }
 </style>
