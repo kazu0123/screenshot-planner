@@ -1,42 +1,30 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import { writable, type Writable } from "svelte/store";
     import { isCalendarEvent, type CalendarEvent } from "$lib/CalendarEvent";
 
     let calendarEvents: Writable<CalendarEvent[]> = writable([]);
 
-    function loadCalendarEvents() {
-        const storedData = sessionStorage.getItem("calendarEvents");
-        if (!storedData) {
-            console.error("No calendarEvents data found in sessionStorage.");
-            return false;
-        }
-
-        let data;
-        try {
-            data = JSON.parse(storedData);
-        } catch (error) {
-            console.error("Error parsing JSON data:", error);
-            return false;
-        }
+    function parseCalendarEventsJSON(inputText: string): CalendarEvent[] {
+        let data = JSON.parse(inputText);
 
         if (!Array.isArray(data)) {
-            console.error("Invalid calendarEvents data format. Expected an array.");
-            return false;
+            throw new Error("Invalid data format. Expected an array.");
         }
 
-        if (data.length === 0) {
-            calendarEvents.set([]);
-            return true;
+        if (!data.every(isCalendarEvent)) {
+            throw new Error ("Invalid calendarEvents data. Not all items are valid CalendarEvent.");
         }
 
-        if (data.every(isCalendarEvent)) {
-            calendarEvents.set(data);
-            return true;
-        } else {
-            console.error("Invalid calendarEvents data. Not all items are valid CalendarEvent.");
-            return false;
-        }
+        return data
     }
+
+    onMount(() => {
+        const storedData = sessionStorage.getItem("calendarEvents");
+        if (storedData == null) { throw new Error("calendarEvents is null in sessionStorage."); }
+
+        calendarEvents.set( parseCalendarEventsJSON(storedData) );
+    });
 </script>
 
 <ul>
