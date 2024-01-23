@@ -1,7 +1,10 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { writable, type Writable } from "svelte/store";
+
     import { isCalendarEvent, type CalendarEvent } from "$lib/CalendarEvent";
+
+    import SubmitButton from '$lib/SubmitButton.svelte';
 
     let calendarEvents: Writable<CalendarEvent[]> = writable([]);
 
@@ -25,7 +28,27 @@
 
         calendarEvents.set( parseCalendarEventsJSON(storedData) );
     });
+
+    async function submitCalendarEvents() {
+        const responses = $calendarEvents.map((calendarEvent) => {
+            return fetch("http://127.0.0.1:8000/create-event", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(calendarEvent),
+            });
+        });
+
+        const eventURLs = await Promise.all( responses.map( async (response) => (await response).text()) );
+
+        eventURLs.forEach((eventURL, index) => {
+            console.log(index, eventURL);
+        });
+    }
 </script>
+
+<div>
 
 <ul>
 {#each $calendarEvents as calendarEvent}
@@ -59,6 +82,10 @@
     </li>
 {/each}
 </ul>
+
+<SubmitButton on:click={submitCalendarEvents}>カレンダーに登録</SubmitButton>
+
+</div>
 
 <style>
     li > div :first-child {
