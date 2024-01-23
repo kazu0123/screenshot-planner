@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import { isCalendarEvent } from "$lib/CalendarEvent";
     import SubmitButton from "$lib/SubmitButton.svelte";
     import { writable } from "svelte/store";
@@ -20,6 +21,8 @@
         }
 
         sessionStorage.setItem("calendarEvents", JSON.stringify(data));
+
+        goto("/event-confirm");
     }
 </script>
 
