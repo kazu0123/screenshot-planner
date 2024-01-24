@@ -70,23 +70,21 @@
     }
 </script>
 
-<main class="flex flex-col w-96 h-svh p-5">
-    <section class="w-full grow">
-        <h1 class="w-full mb-5 text-4xl">画像から</h1>
-        {#if imageURI == ""}
-            <p>画像をアップロードしてください</p>
+<section class="w-full grow">
+    <h1 class="w-full mb-5 text-4xl">画像から</h1>
+    {#if imageURI == ""}
+        <p>画像をアップロードしてください</p>
+    {:else}
+        <img src="{imageURI}" alt="" class="w-full">
+    {/if}
+</section>
+<section class="w-full">
+    <input bind:files={files} type="file" capture="environment" on:change={updateImageURI}>
+    <SubmitButton disabled={$processing} on:click={handleClick}>
+        {#if $processing}
+            <Spinner></Spinner>
         {:else}
-            <img src="{imageURI}" alt="" class="w-full">
+            送信
         {/if}
-    </section>
-    <section class="w-full">
-        <input bind:files={files} type="file" capture="environment" on:change={updateImageURI}>
-        <SubmitButton disabled={$processing} on:click={handleClick}>
-            {#if $processing}
-                <Spinner></Spinner>
-            {:else}
-                送信
-            {/if}
-        </SubmitButton>
-    </section>
-</main>
+    </SubmitButton>
+</section>
