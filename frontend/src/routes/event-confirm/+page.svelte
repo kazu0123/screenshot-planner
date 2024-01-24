@@ -48,6 +48,8 @@
     }
 </script>
 
+<h1 class="w-full mb-5 text-4xl">イベント登録確認</h1>
+
 <ul class="w-full h-full grow overflow-y-scroll">
 {#each $calendarEvents as calendarEvent}
     <li>
