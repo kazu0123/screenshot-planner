@@ -48,10 +48,10 @@
     }
 </script>
 
-<ul>
+<ul class="w-full h-full grow overflow-y-scroll">
 {#each $calendarEvents as calendarEvent}
     <li>
-        <h2 class="text-2xl mb-3">{calendarEvent.event_title}</h2>
+        <h2 class="text-2xl my-3">{calendarEvent.event_title}</h2>
 
         <div>
             <p>開始日時</p>
