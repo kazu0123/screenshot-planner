@@ -48,8 +48,6 @@
     }
 </script>
 
-<div>
-
 <ul>
 {#each $calendarEvents as calendarEvent}
     <li>
@@ -84,8 +82,6 @@
 </ul>
 
 <SubmitButton on:click={submitCalendarEvents}>カレンダーに登録</SubmitButton>
-
-</div>
 
 <style>
     li > div :first-child {
