@@ -5,8 +5,11 @@
     import { isCalendarEvent, type CalendarEvent } from "$lib/CalendarEvent";
 
     import SubmitButton from '$lib/SubmitButton.svelte';
+    import { goto } from '$app/navigation';
+    import { Spinner } from 'flowbite-svelte';
 
     let calendarEvents: Writable<CalendarEvent[]> = writable([]);
+    let processing = writable(false);
 
     function parseCalendarEventsJSON(inputText: string): CalendarEvent[] {
         let data = JSON.parse(inputText);
@@ -30,9 +33,12 @@
     });
 
     async function submitCalendarEvents() {
+        $processing = true;
+
         const responses = $calendarEvents.map((calendarEvent) => {
             return fetch("http://127.0.0.1:8000/create-event", {
                 method: "POST",
+                mode: "cors",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -40,11 +46,11 @@
             });
         });
 
-        const eventURLs = await Promise.all( responses.map( async (response) => (await response).text()) );
+        const eventURLs = await Promise.all( responses.map( async (response) => (await response).json()) );
 
-        eventURLs.forEach((eventURL, index) => {
-            console.log(index, eventURL);
-        });
+        sessionStorage.setItem("calendarEventURLs", JSON.stringify(eventURLs));
+
+        goto("/event-submit-result")
     }
 </script>
 
@@ -83,7 +89,13 @@
 {/each}
 </ul>
 
-<SubmitButton on:click={submitCalendarEvents}>カレンダーに登録</SubmitButton>
+<SubmitButton disabled={$processing} on:click={submitCalendarEvents}>
+    {#if $processing}
+        <Spinner></Spinner>
+    {:else}
+        カレンダーに登録
+    {/if}
+</SubmitButton>
 
 <style>
     li > div :first-child {
